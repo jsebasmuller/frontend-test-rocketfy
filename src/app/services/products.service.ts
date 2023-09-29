@@ -4,11 +4,14 @@ import { Observable } from 'rxjs';
 import { PaginatedProducts } from 'src/models/paginated-products';
 import { Product } from 'src/models/products';
 import { ProductParams } from 'src/models/query-filter';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
+
+  private API_URL = environment.API_URL;
 
   constructor(private http: HttpClient) { }
 
@@ -45,22 +48,22 @@ export class ProductsService {
     if (filters.sortBy) {
       params = params.append('sortBy', filters.sortBy);
     }
-    return this.http.get<PaginatedProducts>('http://localhost:3000/api/product/filter', {params});
+    return this.http.get<PaginatedProducts>(`${this.API_URL}product/filter`, {params});
   }
 
   getProductById(id: string): Observable<Product> {
-    return this.http.get<Product>(`http://localhost:3000/api/product/get/${id}`);
+    return this.http.get<Product>(`${this.API_URL}product/get/${id}`);
   }
 
   createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>('http://localhost:3000/api/product/create', product);
+    return this.http.post<Product>(`${this.API_URL}product/create`, product);
   }
 
   updateProduct(product: Product): Observable<Product> {
-    return this.http.put<Product>('http://localhost:3000/api/product/update', product);
+    return this.http.put<Product>(`${this.API_URL}product/update`, product);
   }
 
   deleteProduct(id: string): Observable<Product> { 
-    return this.http.delete<Product>(`http://localhost:3000/api/product/delete/${id}`);
+    return this.http.delete<Product>(`${this.API_URL}product/delete/${id}`);
   }
 }
