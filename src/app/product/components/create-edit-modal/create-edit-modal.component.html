@@ -1,0 +1,149 @@
+<div [ngClass]="{'hidden fadeOut': !isOpenModal, 'block fadeIn':isOpenModal}" class="fadeIn fixed inset-0 z-20">
+    <div class="modal-flex-container flex items-end justify-center min-h-screen 
+        pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="modal-bg-container fixed inset-0 bg-gray-700 bg-opacity-75">
+
+        </div>
+        <div class="modal-space-container hidden sm:inline-block sm:align-middle sm:h-screen">
+        </div>
+        <div [ngClass]="{'scaleOut': !isOpenModal, 'scaleIn':isOpenModal}" class="inline-block align-bottom bg-white rounded-lg
+            text-left overflow-hidden overflow-y-auto shadow-lx transform transition-all sm:my-8 
+            sm:align-middle sm:max-w-lg w-full max-h-[80vh] sm:max-h-screen z-50">
+            <div class="modal-wrapper bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="modal-wrapper-flex sm:flex sm:items-start relative mb-6">
+                    <div class="modal-content text-center mt-3 sm:mt-0 w-full">
+                        <h3 class="text-lg font-medium text-gray-900">
+                            {{titleModal}}
+                        </h3>
+                    </div>
+                    <div class="absolute h-3 w-3 top-0 right-0 -translate-x-full -translate-y-full">
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg 
+                            text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white
+                            transition-transform transform hover:scale-105" (click)="closeModal()">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                </div>
+                <form [formGroup]="form">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                            Nombre del producto
+                        </label>
+                        <input
+                            [ngClass]="{'border-red-500': name.invalid && (name.dirty || name.touched)}"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="name" type="text" placeholder="Nombre del producto" formControlName="name">
+                        <div *ngIf="name.errors && (name.dirty || name.touched)">
+                            <p class="text-red-500 text-xs italic" *ngIf="name.errors['required']">El nombre del producto es requerido</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
+                            Descripción del producto
+                        </label>
+                        <textarea
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                            id="description" type="text" placeholder="Descripción de tu producto" formControlName="description">
+                        </textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="sku">
+                            Sku del producto
+                        </label>
+                        <input
+                            [ngClass]="{'border-red-500': sku.invalid && (sku.dirty || sku.touched)}"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="sku" type="text" placeholder="Sku del producto" formControlName="sku">
+                        <div *ngIf="sku.errors && (sku.dirty || sku.touched)">
+                            <p class="text-red-500 text-xs italic" *ngIf="sku.errors['required']">El Sku del producto es requerido</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="tags">
+                            Tags
+                        </label>
+                        <input
+                            [ngClass]="{'border-red-500': tags.invalid && (tags.dirty || tags.touched)}"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="tags" type="text" placeholder="tags del producto" formControlName="tags">
+                        <div *ngIf="tags.errors && (tags.dirty || tags.touched)">
+                            <p class="text-red-500 text-xs italic" *ngIf="tags.errors['required']">Los tags del producto son requeridos</p>
+                            <p class="text-red-500 text-xs italic" *ngIf="tags.errors['pattern']">Los tags deben ir separados por "," ejemplo: (Instrumentos, tecnología)</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-between">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="price">
+                                Precio del producto
+                            </label>
+                            <input
+                                [ngClass]="{'border-red-500': price.invalid && (price.dirty || price.touched)}"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="price" type="number" placeholder="Precio del producto" formControlName="price">
+                            <div *ngIf="price.errors && (price.dirty || price.touched)">
+                                <p class="text-red-500 text-xs italic" *ngIf="price.errors['required']">El precio del producto es requerido</p>
+                                <p class="text-red-500 text-xs italic" *ngIf="price.errors['min']">El precio mínimo admitido es de COP $1.000</p>
+                                <p class="text-red-500 text-xs italic" *ngIf="price.errors['max']">El precio máximo admitido es de COP $999.999.999</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="stock">
+                                Cantidad del producto
+                            </label>
+                            <input
+                                [ngClass]="{'border-red-500': stock.invalid && (stock.dirty || stock.touched)}"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="stock" type="number" placeholder="Precio del producto" formControlName="stock">
+                            <div *ngIf="stock.errors && (stock.dirty || stock.touched)">
+                                <p class="text-red-500 text-xs italic" *ngIf="stock.errors['required']">La cantidad del producto es requerido</p>
+                                <p class="text-red-500 text-xs italic" *ngIf="stock.errors['min']">La cantidad mínima admitida es 1</p>
+                                <p class="text-red-500 text-xs italic" *ngIf="stock.errors['max']">La cantidad máxima admitida son 999.999</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-6" *ngIf="!imageBase64">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
+                        <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 
+                            dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
+                            aria-describedby="file_input_help" id="file_input" type="file" (change)="onFileSelected($event)" formControlName="image">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MÁX. 2MB).</p>
+                    </div>
+
+                    <div *ngIf="imageBase64" class="relative w-fit z-10">
+                        <img class="rounded-t-xl w-36 h-36 object-cover" [src]="sanitizeImage(imageBase64)" alt="Imagen-Producto">
+                        <div class="absolute top-0 right-0">
+                            <mat-icon class="transition-transform transform hover:scale-105 cursor-pointer text-red-500" aria-hidden="false" 
+                                fontIcon="delete_forever" (click)="deleteImage()"></mat-icon>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-actions bg-gray-50 px-4 py-3 sm:px-6 sm:flex 
+                sm:flex-row-reverse">
+                <button class="w-full inline-flex justify-center rounded-md border 
+                    border-transparent shadow-md px-4 py-2 bg-white font-medium 
+                    text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 
+                    focus:ring-offset-2 focus:ring-blue-200 sm:mt-0 sm:ml-3 sm:w-auto 
+                    sm-text-sm transition-transform transform hover:scale-105" (click)="closeModal()">
+                    Cancelar
+                </button>
+                <button class="w-full inline-flex justify-center rounded-md border 
+                border-transparent shadow-md px-4 py-2 bg-yellow-300 font-medium 
+                text-gray-700 hover:bg-yellow-400 focus:outline-none focus:ring-2 
+                focus:ring-offset-2 focus:ring-blue-200 sm:mt-0 sm:ml-3 sm:w-auto 
+                sm-text-sm transition-transform transform hover:scale-105 mt-3" (click)="createEditProduct()">
+                    {{textButton}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fixed top-0 left-0 w-full h-full z-50" *ngIf="(productCreateState && productCreateState.loading) || (productEditState && productEditState.loading)">
+    <app-loading></app-loading>
+</div>
