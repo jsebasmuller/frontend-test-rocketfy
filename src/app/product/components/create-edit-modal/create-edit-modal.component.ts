@@ -4,7 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { Subject, takeUntil } from 'rxjs';
 import { Product } from 'src/models/products';
-import { createProduct, editProduct } from 'src/store/actions/products.actions';
+import { createProduct, editProduct, resetProduct } from 'src/store/actions/products.actions';
 import { ProductState } from 'src/store/reducers/product.reducer';
 import { getCreateProductSelector, getEditProductSelector } from 'src/store/store';
 import Swal from 'sweetalert2';
@@ -55,6 +55,7 @@ export class CreateEditModalComponent implements OnChanges, OnDestroy {
       tags: this.tags,
       image: this.image
     });
+    
     this.store.select(getCreateProductSelector).pipe(
       takeUntil(this.destroy$)
     ).subscribe(data => {
@@ -64,46 +65,22 @@ export class CreateEditModalComponent implements OnChanges, OnDestroy {
           title: 'Producto Creado',
           text: 'Su producto ha sido creado satisfactoriamente',
           icon: 'success',
-          confirmButtonColor: '#FDE047'
-        });
-        this.form.reset();
-        this.deleteImage();
-        this.closeModal();
-      }
-      if(this.productCreateState.error){
-        Swal.fire({
-          title: 'Error',
-          text: this.productCreateState.error.message,
-          icon: 'error',
-          confirmButtonColor: '#FDE047'
-        });
-      }
-    });
-    this.store.select(getCreateProductSelector).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(data => {
-      this.productCreateState = data;
-      if(this.productCreateState.product){
-        Swal.fire({
-          title: 'Producto Creado',
-          text: 'Su producto ha sido creado satisfactoriamente',
-          icon: 'success',
-          confirmButtonColor: '#FDE047'
-        });
-        this.form.reset();
-        this.deleteImage();
-        this.closeModal();
-      }
-      if(this.productCreateState.error){
-        Swal.fire({
-          title: 'Error',
-          text: this.productCreateState.error.message,
-          icon: 'error',
           confirmButtonColor: '#FDE047'
         }).then(result => {
-          if(result.isConfirmed){
-
+          if (result.isConfirmed) {
+            this.store.dispatch(resetProduct());
+            this.form.reset();
+            this.deleteImage();
+            this.closeModal();
           }
+        });
+      }
+      if(this.productCreateState.error){
+        Swal.fire({
+          title: 'Error',
+          text: this.productCreateState.error.message,
+          icon: 'error',
+          confirmButtonColor: '#FDE047'
         });
       }
     });
@@ -118,10 +95,14 @@ export class CreateEditModalComponent implements OnChanges, OnDestroy {
           text: 'Su producto ha sido editado satisfactoriamente',
           icon: 'success',
           confirmButtonColor: '#FDE047'
+        }).then(result => {
+          if (result.isConfirmed) {
+            this.store.dispatch(resetProduct());
+            this.form.reset();
+            this.deleteImage();
+            this.closeModal();
+          }
         });
-        this.form.reset();
-        this.deleteImage();
-        this.closeModal();
       }
       if(this.productEditState.error){
         Swal.fire({
@@ -129,10 +110,6 @@ export class CreateEditModalComponent implements OnChanges, OnDestroy {
           text: this.productEditState.error.message,
           icon: 'error',
           confirmButtonColor: '#FDE047'
-        }).then(result => {
-          if(result.isConfirmed){
-            
-          }
         });
       }
     });
@@ -167,8 +144,8 @@ export class CreateEditModalComponent implements OnChanges, OnDestroy {
   }
 
   closeModal() {
-    this.emitCloseModal.emit(false);
     this.form.reset();
+    this.emitCloseModal.emit(false);
   }
 
   createEditProduct(){

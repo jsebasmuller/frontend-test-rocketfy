@@ -77,3 +77,7 @@ export const deleteProductError = createAction(
   '[Product API] Delete Product Error',
   props<{ errorMessage: string }>()
 );
+
+export const resetProduct = createAction(
+  '[Product API] Reset Product State '
+);

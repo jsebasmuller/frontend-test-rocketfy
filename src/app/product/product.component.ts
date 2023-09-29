@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject, takeUntil } from 'rxjs';
@@ -24,7 +23,6 @@ export class ProductComponent {
   productSelected!: Product;
   productsPaginated: PaginatedProducts | null = null;
   productState: ProductsState | null = null;
-  productDeleteState: ProductState | null = null;
   destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(
     private readonly store: Store,
@@ -39,31 +37,6 @@ export class ProductComponent {
       if(Number(this.paramsAux?.page!) > Number(this.productsPaginated?.pagination.totalPages!)){
         this.paramsAux.page = 1;
         this.updateParams()
-      }
-    });
-    this.store.select(getDeleteProductSelector).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(data => {
-      this.productDeleteState = data;
-      if(data.product){
-        Swal.fire({
-          title:'Producto Eliminado',
-          text: 'El producto ha sido eliminado satisfactoriamente',
-          icon: 'success',
-          confirmButtonColor: '#FDE047'
-        }).then(result => {
-          if (result.isConfirmed){
-            this.store.dispatch(loadProducts({ filter: this.params }));
-          }
-        })
-      }
-      if(data.error){
-        Swal.fire({
-          title: 'Error',
-          text: data.error.message,
-          icon: 'error',
-          confirmButtonColor: '#FDE047'
-        });
       }
     });
     this.route.queryParams.subscribe(params => {

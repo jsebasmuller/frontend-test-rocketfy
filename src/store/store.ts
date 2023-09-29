@@ -16,14 +16,15 @@ interface State {
     product: ProductState,
     createdProduct: ProductState,
     editedProduct: ProductState,
-    deletedProduct: ProductState
+    deletedProduct: ProductState,
 }
+
 export const reducers: ActionReducerMap<State> = {
     products: reducerProducts,
     product: reducerProduct,
     createdProduct: reducerCreateProduct,
     editedProduct: reducerEditProduct,
-    deletedProduct: reducerDeleteProduct
+    deletedProduct: reducerDeleteProduct,
   };
 
 export const getProductsSelector = createSelector(

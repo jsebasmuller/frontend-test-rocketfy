@@ -6,9 +6,9 @@ import {
   map,
   of,
 } from 'rxjs';
-import { 
-  loadProductsSuccess, 
-  loadProducts, 
+import {
+  loadProductsSuccess,
+  loadProducts,
   loadProductsError,
   getProductById,
   getProductByIdSuccess,
@@ -21,7 +21,8 @@ import {
   deleteProductError,
   editProduct,
   editProductSuccess,
-  editProductError
+  editProductError,
+  resetProduct
 } from '../actions/products.actions';
 import { ProductsService } from 'src/app/services/products.service';
 
@@ -30,7 +31,7 @@ export class ProductEffects {
   constructor(
     private actions$: Actions,
     private productService: ProductsService
-  ) {}
+  ) { }
 
   loadProductsFilter$ = createEffect(() =>
     this.actions$.pipe(
@@ -40,18 +41,18 @@ export class ProductEffects {
           map((products) => loadProductsSuccess({ products })),
           catchError((error) => {
             return of(
-                loadProductsError({
-                    errorMessage: error.error.message,
-                })
-                )
-            }
+              loadProductsError({
+                errorMessage: error.error.message,
+              })
+            )
+          }
           )
         )
       )
     )
   );
 
-  loadProductById$ = createEffect(() => 
+  loadProductById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getProductById),
       exhaustMap((initAction) =>
@@ -69,7 +70,7 @@ export class ProductEffects {
     )
   );
 
-  createProduct$ = createEffect(() => 
+  createProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(createProduct),
       exhaustMap((initAction) =>
@@ -87,7 +88,7 @@ export class ProductEffects {
     )
   );
 
-  editProduct$ = createEffect(() => 
+  editProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(editProduct),
       exhaustMap((initAction) =>
@@ -105,7 +106,7 @@ export class ProductEffects {
     )
   );
 
-  deleteProduct$ = createEffect(() => 
+  deleteProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(deleteProduct),
       exhaustMap((initAction) =>

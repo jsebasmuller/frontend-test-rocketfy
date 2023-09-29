@@ -8,7 +8,7 @@ export interface ProductState {
     error: Error | null;
 }
 
-const initialState: ProductState = {
+export const initialState: ProductState = {
     product: null,
     loading: false,
     error: null

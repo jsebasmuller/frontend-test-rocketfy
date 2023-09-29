@@ -1,5 +1,5 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { deleteProduct, deleteProductError, deleteProductSuccess } from '../actions/products.actions';
+import { deleteProduct, deleteProductError, deleteProductSuccess, resetProduct } from '../actions/products.actions';
 import { Product } from 'src/models/products';
 
 export interface ProductState {
@@ -30,6 +30,9 @@ export const deleteProductReducer = createReducer(
         loading: false,
         product: null,
         error: new Error(action.errorMessage)
+    })),
+    on(resetProduct, (currentState) => ({
+        ...initialState
     }))
 );
 
