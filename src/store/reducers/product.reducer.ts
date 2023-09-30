@@ -1,5 +1,5 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { createProduct, createProductError, createProductSuccess, deleteProduct, deleteProductError, deleteProductSuccess, editProduct, editProductError, editProductSuccess, getProductById, getProductByIdError, getProductByIdSuccess } from '../actions/products.actions';
+import { getProductById, getProductByIdError, getProductByIdSuccess } from '../actions/products.actions';
 import { Product } from 'src/models/products';
 
 export interface ProductState {
@@ -26,36 +26,6 @@ export const productReducer = createReducer(
         product: action.product,
     })),
     on(getProductByIdError, (currentState, action) => ({
-        ...currentState,
-        loading: false,
-        product: null,
-        error: new Error(action.errorMessage)
-    })),
-    on(editProduct, (currentState) => ({
-        ...currentState,
-        loading: true
-    })),
-    on(editProductSuccess, (currentState, action) => ({
-        ...currentState,
-        loading: false,
-        product: action.product,
-    })),
-    on(editProductError, (currentState, action) => ({
-        ...currentState,
-        loading: false,
-        product: null,
-        error: new Error(action.errorMessage)
-    })),
-    on(deleteProduct, (currentState) => ({
-        ...currentState,
-        loading: true
-    })),
-    on(deleteProductSuccess, (currentState, action) => ({
-        ...currentState,
-        loading: false,
-        product: action.product,
-    })),
-    on(deleteProductError, (currentState, action) => ({
         ...currentState,
         loading: false,
         product: null,
