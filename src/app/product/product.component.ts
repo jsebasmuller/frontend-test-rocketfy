@@ -6,10 +6,8 @@ import { PaginatedProducts } from 'src/models/paginated-products';
 import { Product } from 'src/models/products';
 import { ProductParams } from 'src/models/query-filter';
 import { loadProducts } from 'src/store/actions/products.actions';
-import { ProductState } from 'src/store/reducers/product.reducer';
 import { ProductsState } from 'src/store/reducers/products.reducer';
-import { getDeleteProductSelector, getProductsSelector } from 'src/store/store';
-import Swal from 'sweetalert2';
+import { getProductsSelector } from 'src/store/store';
 
 @Component({
   selector: 'app-product',
@@ -104,5 +102,19 @@ export class ProductComponent {
       this.paramsAux.sortBy = 'price';
     }
     this.updateParams();
+  }
+
+  validatePriceFilter(): boolean {
+    if(this.paramsAux.maxPrice && Number(this.paramsAux.maxPrice) < Number(this.paramsAux.minPrice!)){
+      return true
+    }
+    return false;
+  }
+
+  validateStockFilter(): boolean {
+    if(this.paramsAux.maxStock && Number(this.paramsAux.maxStock) < Number(this.paramsAux.minStock!)){
+      return true
+    }
+    return false;
   }
 }
