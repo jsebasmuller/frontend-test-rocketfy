@@ -81,6 +81,10 @@ export class CreateEditModalComponent implements OnChanges, OnDestroy {
           text: this.productCreateState.error.message,
           icon: 'error',
           confirmButtonColor: '#FDE047'
+        }).then(result => {
+          if (result.isConfirmed) {
+            this.store.dispatch(resetProduct());
+          }
         });
       }
     });
@@ -110,6 +114,10 @@ export class CreateEditModalComponent implements OnChanges, OnDestroy {
           text: this.productEditState.error.message,
           icon: 'error',
           confirmButtonColor: '#FDE047'
+        }).then(result => {
+          if(result.isConfirmed){
+            this.store.dispatch(resetProduct());
+          }
         });
       }
     });
